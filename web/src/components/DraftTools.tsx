@@ -5,7 +5,7 @@ import { ErrorNotice } from './ErrorNotice';
 
 type Run = (action: () => Promise<unknown>) => void;
 
-const toBase64 = async (file: File) => {
+export const toBase64 = async (file: File) => {
   const bytes = new Uint8Array(await file.arrayBuffer());
   let binary = '';
   for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));

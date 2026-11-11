@@ -4,6 +4,7 @@ import { dateTime, label, STATUS_TONE } from '../format';
 import { AddRecipient, AttachDocument, FieldEditor } from './DraftTools';
 import { ErrorNotice } from './ErrorNotice';
 import { CorrectionForm, OfferSettings, RecipientEditor } from './FixTools';
+import { Requirements } from './Requirements';
 
 type Value = NonNullable<NonNullable<Detail['formData']['recipients']>[number]['values']>[number];
 
@@ -167,6 +168,8 @@ export function OfferDetail({ id, onClose, onChanged, onSelect }: Props) {
           {signers.map((r) => r.recipientId && <FieldEditor key={r.recipientIdGuid} id={id} recipientId={r.recipientId} name={r.name} />)}
         </div>
       )}
+
+      {!isDraft && <Requirements offerId={id} />}
 
       <div>
         <h4>Settings</h4>

@@ -1,4 +1,4 @@
-export type { Account, ApiLogEntry, DraftRecipientInput, Envelope, EnvelopePage, EventPage, Field, LogEvent, OfferDetail, OfferInput, Status, Template, TemplateSummary, TwalaEvent } from '../../shared/types';
+export type { Account, ApiLogEntry, DraftRecipientInput, Envelope, EnvelopePage, EventPage, Field, LogEvent, OfferDetail, OfferInput, RequirementUpload, Status, Template, TemplateSummary, Timestamp, TimestampDetail, TimestampPage, TwalaEvent } from '../../shared/types';
 
 export interface AppError {
   source: 'twala' | 'app';
