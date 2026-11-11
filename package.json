@@ -2,7 +2,7 @@
   "name": "hr-hiring-desk",
   "private": true,
   "version": "0.0.0",
-  "description": "Demo HR hiring desk built on the Twala API, to test its developer experience",
+  "description": "Demo HR hiring desk built on the Twala API",
   "type": "module",
   "scripts": {
     "dev": "concurrently -n server,web -c blue,magenta \"npm:dev:server\" \"npm:dev:web\"",
