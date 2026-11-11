@@ -1,6 +1,7 @@
 import express, { type ErrorRequestHandler } from 'express';
 import { config } from './config.js';
 import { clear, recent, subscribe } from './apiLog.js';
+import { offers } from './offers.js';
 import { TwalaApiError, twala } from './twala/client.js';
 import type { Status } from '../../shared/types.js';
 
@@ -17,6 +18,8 @@ app.get('/api/status', async (_req, res) => {
   } catch {}
   res.json(status);
 });
+
+app.use('/api/offers', offers);
 
 app.get('/api/log', (_req, res) => {
   res.json(recent());
