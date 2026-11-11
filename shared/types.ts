@@ -41,6 +41,18 @@ export interface DraftRecipientInput {
 
 export type FieldInput = components['schemas']['FieldsReplaceInput']['fields'][number];
 export type Field = components['schemas']['FieldOutput'];
+export interface RequirementUpload {
+  requirement: string;
+  name: string;
+  base64: string;
+}
+
+export type Timestamp = components['schemas']['TimestampOutput'];
+export type TimestampPage = components['schemas']['PaginatedResponse_TimestampOutput_'];
+export interface TimestampDetail {
+  timestamp: Timestamp;
+  history: components['schemas']['TimestampEventOutput'][];
+}
 export type TemplateSummary = components['schemas']['TemplateSummaryOutput'];
 export type Template = components['schemas']['TemplateOutput'];
 
