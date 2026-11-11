@@ -180,3 +180,44 @@ The docs promise RFC 3339 times "in UTC with milliseconds"
 parsers (and string comparisons against millisecond values) don't.
 
 Suggested fix: serialize every time with milliseconds, as documented.
+
+## Phase 5: live status
+
+### Friction: event `createdAt` is when Twala picked the event up, not when it happened
+
+Two envelopes sent 1.3 seconds apart (`sentAt` `07:13:38.231` and
+`07:13:39.514`) produced four events whose `createdAt` were
+`07:13:42.522022` to `.522025`, one microsecond apart. `createdAt` records
+when the background scanner turned them into events, in batch order. The docs
+say to "use `createdAt` and the event `id`" when order matters, but
+`createdAt` can't tell events in the same batch apart, and it lags the real
+moment by seconds.
+
+Suggested fix: add an `occurredAt` with the time the underlying envelope
+event happened, and keep `createdAt` for when the webhook event was made.
+
+### Good: Standard Webhooks signing works exactly as documented
+
+A delivery signed by hand following the docs (HMAC-SHA256 over
+`{webhook-id}.{webhook-timestamp}.{body}`, keyed by the bytes after
+`whsec_`) was accepted unchanged by the `standardwebhooks` npm library, and a
+tampered body or missing signature was refused. Integrators can use the
+library with no custom code.
+
+### Good: `GET /events` makes webhooks safe to miss
+
+Events are listed for 30 days whether or not they were delivered, so the app
+shows which events never arrived by webhook and can catch up. A missing event
+answers `404 event_not_found`.
+
+### Gap: local webhook testing needs a tunnel and re-registration
+
+Webhook endpoints must be public HTTPS, so local development needs a tunnel.
+A free quick tunnel gets a new address every time it starts, and each new
+address has to be added in the Apps page by hand, with a new signing secret.
+Test keys can already return to `http://localhost` for embedded views, but
+there's no local equivalent for webhooks.
+
+Suggested fix: a "Send test event" target that streams events to a CLI (like
+`stripe listen`), or let test-mode endpoints keep their secret when only the
+address changes.

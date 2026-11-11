@@ -37,6 +37,22 @@ npm install
 npm run dev              # server on :3180, UI on http://localhost:5180
 ```
 
+### Webhooks (optional)
+
+Twala only delivers webhooks to a public HTTPS address, so expose the app
+server with a tunnel:
+
+1. Run `npm run tunnel` in a second terminal and copy the
+   `https://….trycloudflare.com` address it prints.
+2. In Twala: **Apps** → your App → **Webhook endpoints** → add
+   `<tunnel address>/webhooks/twala` in **Test** mode, for all events.
+3. Copy the endpoint's signing secret into `.env` as `TWALA_WEBHOOK_SECRET`,
+   then restart `npm run dev`.
+
+A quick tunnel gets a new address each time it starts, so update the endpoint
+in Twala when you restart it. Without webhooks, the **Activity** feed still
+lists every event from `GET /events`; click **Refresh** to catch up.
+
 Other scripts:
 
 | Script | Does |
@@ -44,17 +60,19 @@ Other scripts:
 | `npm run gen:api` | Regenerate API types from the OpenAPI document |
 | `npm run typecheck` | Type-check the server and the UI |
 | `npm run build` | Build the UI into `web/dist` |
+| `npm run tunnel` | Expose the app server on a public HTTPS address for webhooks |
 
 ## Build phases
 
 | # | Phase | Endpoints |
 | --- | --- | --- |
 | 0 | Scaffold: client, API log, config | `openapi.json` |
-| 1 | Account header and credits | `GET /account` |
-| 2 | Send offer letter | `POST /envelopes`, test mode |
-| 3 | Candidate pipeline | `GET /envelopes`, `GET /envelopes/{id}` |
-| 4 | Embedded sending and signing | `views/sender`, `views/recipient` |
-| 5 | Live status | `/events`, webhooks |
-| 6 | Fixes and nudges | reminders, recipients, `PATCH /envelopes/{id}` |
-| 7 | Onboarding documents | second envelope, documents, timestamps |
-| 8 | Developer-experience report | — |
+| 1 | Account panel and credits | `GET /account` |
+| 2 | Send offer letter | `POST /envelopes`, `PATCH /envelopes/{id}`, `DELETE /envelopes/{id}` |
+| 3 | Candidate pipeline | `GET /envelopes`, envelope, recipients, documents, document download, audit events, form data |
+| 4 | Embedded signing and sending | `views/recipient`, `views/sender` |
+| 5 | Live status | `GET /events`, `GET /events/{id}`, webhooks |
+| 6 | Drafts and templates | add/remove documents and recipients, get/replace fields, templates |
+| 7 | Fixes and nudges | correct a recipient, reminders, void, expiry, metadata, sealing retries |
+| 8 | Pre-employment requirements | timestamps |
+| 9 | Developer-experience report | — |
