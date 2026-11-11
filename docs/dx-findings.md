@@ -43,3 +43,38 @@ itself.
 A request with no key answers `401` with `code: missing_api_key`, a
 `requestId`, a matching `X-Request-ID` header, and
 `WWW-Authenticate: Bearer realm="twala-api"`, exactly as documented.
+
+## Phase 1: account
+
+### Good: `GET /account` is a useful startup check
+
+One call returns the App, mode, sender, credit balance, features and limits,
+and the stage response matched the OpenAPI schema field for field. Accepted
+requests carry `RateLimit-Limit`, `RateLimit-Remaining` and `RateLimit-Reset`
+as documented.
+
+### Gap: no way to know who a test envelope may be emailed to
+
+With a test key, email recipients must be the App's own people, or the send
+fails with `400 test_recipient_not_allowed`. For a personal App that's the
+sender, which `/account` shows. For a team App it's the team's members, which
+`/account` doesn't list, so an integrator only finds out at send time.
+
+Suggested fix: add the allowed test recipients (or the team's member emails)
+to `/account` in test mode.
+
+### Gap: daily test counts have no reset time
+
+`limits.testEnvelopesToday` and `testTimestampsToday` reset at midnight
+Philippine time, but the response doesn't say when. An integrator has to know
+the rule and compute it in Asia/Manila time to show "resets in 3 hours".
+
+Suggested fix: add a `testCountsResetAt` timestamp to `limits`.
+
+### Friction: `features.timestamps` is always `true`
+
+Its own description says every App may timestamp, so this is always `true`.
+A field that can't vary invites integrators to write dead branches for
+`false`.
+
+Suggested fix: drop it in a future version, or document it as reserved.
