@@ -1,4 +1,4 @@
-export type { ApiLogEntry, LogEvent, Status } from '../../shared/types';
+export type { Account, ApiLogEntry, LogEvent, Status } from '../../shared/types';
 
 export interface AppError {
   source: 'twala' | 'app';
