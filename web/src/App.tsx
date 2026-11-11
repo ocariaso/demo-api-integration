@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { api, type Status } from './api';
 import { AccountPanel } from './components/AccountPanel';
+import { ActivityFeed } from './components/ActivityFeed';
 import { ApiLogDrawer } from './components/ApiLogDrawer';
 import { OfferDetail } from './components/OfferDetail';
 import { OfferForm } from './components/OfferForm';
 import { Pipeline } from './components/Pipeline';
 import { StatusBar } from './components/StatusBar';
 import { takeReturnEvent } from './returnEvent';
+import { onStream } from './stream';
 
 const returned = takeReturnEvent();
 
@@ -27,6 +29,7 @@ export function App() {
     setVersion((v) => v + 1);
     refresh();
   };
+  useEffect(() => onStream((event) => event.type === 'webhook' && changed()), []);
 
   return (
     <div className="shell">
@@ -54,6 +57,7 @@ export function App() {
           <Pipeline version={version} selected={selected} onSelect={setSelected} />
           {selected && <OfferDetail key={`${selected}-${version}`} id={selected} onClose={() => setSelected(null)} onChanged={changed} />}
         </div>
+        <ActivityFeed version={version} webhooks={!!status?.webhooks} />
       </main>
       <ApiLogDrawer />
     </div>

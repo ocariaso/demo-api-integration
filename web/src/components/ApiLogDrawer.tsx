@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { api, type ApiLogEntry, type LogEvent } from '../api';
+import { api, type ApiLogEntry } from '../api';
+import { onStream } from '../stream';
 
 const tone = ({ status }: ApiLogEntry) => (!status || status >= 500 ? 'bad' : status >= 400 ? 'warn' : 'ok');
 
-function Json({ value }: { value: unknown }) {
+export function Json({ value }: { value: unknown }) {
   if (value == null || value === '') return <span className="muted">—</span>;
   return <pre>{typeof value === 'string' ? value : JSON.stringify(value, null, 2)}</pre>;
 }
@@ -37,14 +38,11 @@ export function ApiLogDrawer() {
   const [selected, setSelected] = useState<number | null>(null);
 
   useEffect(() => {
-    const source = new EventSource('/api/log/stream');
-    source.onmessage = ({ data }) => {
-      const event = JSON.parse(data) as LogEvent;
-      if (event.type === 'clear') return setEntries([]);
-      setEntries((current) => (current.some((e) => e.id === event.entry.id) ? current : [...current, event.entry]));
-    };
     api<ApiLogEntry[]>('/api/log').then(setEntries, () => {});
-    return () => source.close();
+    return onStream((event) => {
+      if (event.type === 'clear') setEntries([]);
+      if (event.type === 'entry') setEntries((current) => (current.some((e) => e.id === event.entry.id) ? current : [...current, event.entry]));
+    });
   }, []);
 
   const notOk = entries.filter((e) => tone(e) !== 'ok').length;
