@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { Router } from 'express';
 import type { OfferDetail, OfferInput } from '../../shared/types.js';
+import { config } from './config.js';
 import { ANCHORS, offerLetterPdf } from './offerLetter.js';
 import { twala, unwrap } from './twala/client.js';
 
@@ -85,4 +86,23 @@ offers.post('/:id/send', async (req, res) => {
 offers.delete('/:id', async (req, res) => {
   await unwrap(twala.DELETE('/envelopes/{envelope_id}', envelopePath(req.params.id)));
   res.status(204).end();
+});
+
+offers.post('/:id/views/signing', async (req, res) => {
+  res.json(
+    await unwrap(
+      twala.POST('/envelopes/{envelope_id}/views/recipient', {
+        ...envelopePath(req.params.id),
+        body: { recipientId: 'candidate', returnUrl: `${config.appUrl}/?view=signing`, authenticationInstant: new Date().toISOString() },
+      }),
+    ),
+  );
+});
+
+offers.post('/:id/views/sending', async (req, res) => {
+  res.json(
+    await unwrap(
+      twala.POST('/envelopes/{envelope_id}/views/sender', { ...envelopePath(req.params.id), body: { returnUrl: `${config.appUrl}/?view=sending` } }),
+    ),
+  );
 });
