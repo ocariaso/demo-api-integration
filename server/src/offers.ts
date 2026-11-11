@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { Router } from 'express';
-import type { DraftRecipientInput, FieldInput, OfferDetail, OfferInput } from '../../shared/types.js';
+import type { DraftRecipientInput, FieldInput, OfferDetail, OfferInput, OfferUpdate } from '../../shared/types.js';
 import { config } from './config.js';
 import { ANCHORS, offerLetterPdf } from './offerLetter.js';
 import { twala, unwrap } from './twala/client.js';
@@ -12,6 +12,14 @@ const recipientPath = (id: string, recipientId: string) => ({ params: { path: { 
 const AUTO_FILL_TYPES = ['date', 'name', 'email'];
 
 // Fields read back carry ids, nulls and an autoFill their own type refuses, so they're trimmed before a PUT.
+const metadata = (offer: OfferInput) => ({
+  source: 'hiring-desk',
+  jobTitle: offer.jobTitle,
+  salary: String(offer.salary),
+  startDate: offer.startDate,
+  ...(offer.replaces ? { replaces: offer.replaces } : {}),
+});
+
 const writable = ({ fieldId, documentIdGuid, ...field }: Record<string, unknown>) =>
   Object.fromEntries(Object.entries(field).filter(([k, v]) => v != null && (k !== 'autoFill' || AUTO_FILL_TYPES.includes(field.type as string)))) as FieldInput;
 
@@ -51,7 +59,7 @@ async function fromTemplate(offer: OfferInput & { templateId: string }) {
     templateId: offer.templateId,
     name: `Offer letter - ${offer.candidateName}`,
     status: offer.send ? ('sent' as const) : ('draft' as const),
-    metadata: { source: 'hiring-desk', jobTitle: offer.jobTitle },
+    metadata: metadata(offer),
     templateRoles: [
       { ...role(candidate), recipientId: 'candidate', name: offer.candidateName, email: offer.candidateEmail, clientUserId: `candidate-${randomUUID()}` },
       ...(manager ? [{ ...role(manager), recipientId: 'manager', name: offer.managerName, email: offer.managerEmail }] : []),
@@ -59,18 +67,15 @@ async function fromTemplate(offer: OfferInput & { templateId: string }) {
   };
 }
 
-offers.post('/', async (req, res) => {
-  const offer = req.body as OfferInput;
-  if (offer.templateId) {
-    return void res.status(201).json(await unwrap(twala.POST('/envelopes', { body: await fromTemplate({ ...offer, templateId: offer.templateId }) })));
-  }
-  const envelope = await unwrap(
+async function createOffer(offer: OfferInput) {
+  if (offer.templateId) return unwrap(twala.POST('/envelopes', { body: await fromTemplate({ ...offer, templateId: offer.templateId }) }));
+  return unwrap(
     twala.POST('/envelopes', {
       body: {
         name: `Offer letter - ${offer.candidateName}`,
         message: 'Please review and sign your offer of employment.',
         status: offer.send ? 'sent' : 'draft',
-        metadata: { source: 'hiring-desk', jobTitle: offer.jobTitle },
+        metadata: metadata(offer),
         documents: [{ documentId: 'offer', name: 'Offer letter.pdf', documentBase64: await offerLetterPdf(offer) }],
         recipients: {
           signers: [
@@ -101,7 +106,37 @@ offers.post('/', async (req, res) => {
       },
     }),
   );
-  res.status(201).json(envelope);
+}
+
+offers.post('/', async (req, res) => {
+  res.status(201).json(await createOffer(req.body as OfferInput));
+});
+
+offers.patch('/:id', async (req, res) => {
+  const { expiresAt, note } = req.body as OfferUpdate;
+  const body = expiresAt !== undefined ? { expiresAt } : { metadata: { note: note || null } };
+  res.json(await unwrap(twala.PATCH('/envelopes/{envelope_id}', { ...envelopePath(req.params.id), body })));
+});
+
+offers.post('/:id/void', async (req, res) => {
+  const { reason, correction } = req.body as { reason: string; correction?: OfferInput };
+  const voided = await unwrap(
+    twala.PATCH('/envelopes/{envelope_id}', { ...envelopePath(req.params.id), body: { status: 'voided', voidedReason: reason || undefined } }),
+  );
+  res.json(correction ? await createOffer({ ...correction, replaces: req.params.id }) : voided);
+});
+
+offers.patch('/:id/recipients/:recipientId', async (req, res) => {
+  const { name, email } = req.body as { name: string; email: string };
+  res.json(await unwrap(twala.PATCH('/envelopes/{envelope_id}/recipients/{recipient_id}', { ...recipientPath(req.params.id, req.params.recipientId), body: { name, email } })));
+});
+
+offers.post('/:id/reminders', async (req, res) => {
+  res.status(201).json(await unwrap(twala.POST('/envelopes/{envelope_id}/reminders', envelopePath(req.params.id))));
+});
+
+offers.post('/:id/sealing-attempts', async (req, res) => {
+  res.status(202).json(await unwrap(twala.POST('/envelopes/{envelope_id}/sealing-attempts', envelopePath(req.params.id))));
 });
 
 offers.post('/:id/send', async (req, res) => {

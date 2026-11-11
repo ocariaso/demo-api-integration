@@ -24,6 +24,12 @@ export interface OfferInput {
   managerEmail: string;
   send: boolean;
   templateId?: string;
+  replaces?: string;
+}
+
+export interface OfferUpdate {
+  expiresAt?: string | null;
+  note?: string;
 }
 
 export interface DraftRecipientInput {
