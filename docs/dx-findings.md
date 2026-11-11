@@ -318,3 +318,63 @@ sealing** on a `sealing_failed` offer, but only the refusal was exercised.
 
 Suggested fix: a test-mode way to simulate `sealing_failed`, so integrators
 can test their retry path.
+
+## Phase 8: pre-employment requirements (timestamps)
+
+### Good: timestamps are simple and behave as documented
+
+One `POST /timestamps` with two documents answered `201` with one timestamp
+each, in order, both `sealing`. Each item's own `metadata` (`offerId`,
+`requirement`) came back on every read, and `GET /timestamps` with
+`metadata[offerId]` listed exactly that offer's requirements. Downloading
+before sealing answered `409 timestamp_not_sealed`, retrying a completed one
+`409 timestamp_not_retryable`, and a sealed copy downloaded through a one-hour
+link once complete. The history listed `timestamp.created`,
+`timestamp.sealing` and `timestamp.completed` with times.
+
+### Bug: the `metadata[key]` filter is missing from `GET /timestamps` in the OpenAPI document too
+
+As with `GET /envelopes` (Phase 3), the docs list `metadata[key]=value` as a
+filter and it works on stage, but the OpenAPI operation doesn't declare it.
+
+### Friction: a refused document is named by its position, not its name
+
+Uploading a file named `Diploma.pdf` that isn't a PDF answered `400
+invalid_pdf`, "The document "1" was refused: File content is not a valid
+PDF". Timestamp documents have no `documentId`, so the message falls back to
+the position. With several files in one request, the name would say which one
+at a glance.
+
+Suggested fix: name the document as the integrator did ("Diploma.pdf"), with
+its position in `details`.
+
+### Bug: one document of a two-document upload was stuck sealing for 17.5 minutes
+
+Two documents were timestamped in one request at `20:28:27`. The medical
+certificate sealed 71 seconds later. The NBI clearance stayed `sealing`, with
+no further events, until the stale-seal sweep failed it at `20:45:59`. Its
+seal job seems to have been lost, which the platform docs say is swallowed on
+purpose and left for the sweep. A retry then sealed it in 76 seconds:
+
+`timestamp.created 20:28:27` → `timestamp.sealing 20:28:27` →
+`timestamp.sealing_failed 20:45:59` → `timestamp.sealing 20:46:28` →
+`timestamp.completed 20:47:44`
+
+So the retry path works end to end, and `timestamp.sealing_failed` reached
+`GET /events`. But an integrator whose seal job is lost waits up to 18 minutes
+(13 minutes, plus up to 5 for the sweep to run) before they can do anything,
+and nothing in the API says whether a `sealing` timestamp is progressing or
+stuck. A second retry while sealing correctly answered `409
+timestamp_not_retryable`.
+
+Suggested fix: investigate why one job of the pair was lost on stage, and
+consider a shorter stale limit for timestamps (which hold one document) or a
+`sealingStartedAt` field, so integrators can tell a slow seal from a stuck one.
+
+### Resolved: sealing retries are testable after all
+
+Phase 7 noted that a real sealing retry couldn't be tested. The stuck
+timestamp above made one possible: `POST /timestamps/{id}/sealing-attempts`
+answered `202 {"status": "sealing"}` and the seal completed. The envelope
+version (`POST /envelopes/{id}/sealing-attempts`) is still only tested for its
+refusal.
