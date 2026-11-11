@@ -764,45 +764,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -819,7 +819,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -837,7 +837,7 @@ export interface components {
              * @default false
              * @example false
              */
-            success: boolean;
+            success?: boolean;
             /**
              * Error
              * @description The error's class, for people
@@ -909,19 +909,19 @@ export interface components {
              * @description Recipients with the same order are invited together; the next order starts when every signer and approver of the one before has finished
              * @default 1
              */
-            routingOrder: number;
+            routingOrder?: number;
             /**
              * Attachcompletedcopy
              * @description The completion email attaches the signed file, when under 10 MB
              * @default false
              */
-            attachCompletedCopy: boolean;
+            attachCompletedCopy?: boolean;
             /**
              * Requireaccount
              * @description They must be signed in to a Twala account with this email
              * @default false
              */
-            requireAccount: boolean;
+            requireAccount?: boolean;
             /**
              * Accesscode
              * @description 6 to 128 printable ASCII characters they must enter to open the document. Twala never sends it to them
@@ -937,7 +937,7 @@ export interface components {
              * @description They verify their identity before signing; refused in test mode and for an embedded recipient
              * @default false
              */
-            requireIdentityVerification: boolean;
+            requireIdentityVerification?: boolean;
             /**
              * Fields
              * @description Their fields
@@ -1061,45 +1061,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -1116,7 +1116,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -1127,7 +1127,7 @@ export interface components {
              * @description Checked when the recipient opens it
              * @default false
              */
-            checked: boolean;
+            checked?: boolean;
         };
         /**
          * CompanyFieldInput
@@ -1203,45 +1203,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -1258,7 +1258,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -1334,45 +1334,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -1389,7 +1389,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -1400,13 +1400,13 @@ export interface components {
              * @description MM/DD/YYYY, DD/MM/YYYY, YYYY-MM-DD or MMM DD, YYYY
              * @default MM/DD/YYYY
              */
-            dateFormat: string;
+            dateFormat?: string;
             /**
              * Autofill
              * @description Open holding the day the recipient signs (DocuSign's date signed)
              * @default false
              */
-            autoFill: boolean;
+            autoFill?: boolean;
         };
         /**
          * DocumentDownloadOutput
@@ -1573,45 +1573,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -1628,7 +1628,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -1709,45 +1709,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -1764,7 +1764,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -1775,7 +1775,7 @@ export interface components {
              * @description Open holding the recipient's email
              * @default true
              */
-            autoFill: boolean;
+            autoFill?: boolean;
         };
         /**
          * EnvelopeOutput
@@ -2300,45 +2300,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -2355,7 +2355,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -2441,45 +2441,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -2496,7 +2496,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -2577,45 +2577,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -2632,7 +2632,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -2643,7 +2643,7 @@ export interface components {
              * @description Open holding the recipient's name
              * @default true
              */
-            autoFill: boolean;
+            autoFill?: boolean;
         };
         /** PaginatedResponse[EnvelopeOutput] */
         PaginatedResponse_EnvelopeOutput_: {
@@ -2851,45 +2851,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -2906,7 +2906,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -2918,7 +2918,7 @@ export interface components {
              * @default vertical
              * @enum {string}
              */
-            layout: "horizontal" | "vertical";
+            layout?: "horizontal" | "vertical";
         };
         /**
          * RecipientOutput
@@ -3206,45 +3206,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -3261,7 +3261,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -3279,7 +3279,7 @@ export interface components {
              * @default sealing
              * @constant
              */
-            status: "sealing";
+            status?: "sealing";
         };
         /**
          * SenderOutput
@@ -3386,45 +3386,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -3441,7 +3441,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -3457,7 +3457,7 @@ export interface components {
              * @description The "TwalaSigned by" line and verification code under the signature
              * @default true
              */
-            showFooter: boolean;
+            showFooter?: boolean;
         };
         /**
          * SignerInput
@@ -3488,19 +3488,19 @@ export interface components {
              * @description Recipients with the same order are invited together; the next order starts when every signer and approver of the one before has finished
              * @default 1
              */
-            routingOrder: number;
+            routingOrder?: number;
             /**
              * Attachcompletedcopy
              * @description The completion email attaches the signed file, when under 10 MB
              * @default false
              */
-            attachCompletedCopy: boolean;
+            attachCompletedCopy?: boolean;
             /**
              * Requireaccount
              * @description They must be signed in to a Twala account with this email
              * @default false
              */
-            requireAccount: boolean;
+            requireAccount?: boolean;
             /**
              * Accesscode
              * @description 6 to 128 printable ASCII characters they must enter to open the document. Twala never sends it to them
@@ -3516,7 +3516,7 @@ export interface components {
              * @description They verify their identity before signing; refused in test mode and for an embedded recipient
              * @default false
              */
-            requireIdentityVerification: boolean;
+            requireIdentityVerification?: boolean;
             /**
              * Fields
              * @description Their fields
@@ -3592,45 +3592,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -3647,7 +3647,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -3937,45 +3937,45 @@ export interface components {
              * @description Moves the field right from the anchor, in anchorUnits
              * @default 0
              */
-            anchorXOffset: number;
+            anchorXOffset?: number;
             /**
              * Anchoryoffset
              * @description Moves the field down from the anchor, in anchorUnits
              * @default 0
              */
-            anchorYOffset: number;
+            anchorYOffset?: number;
             /**
              * Anchorunits
              * @description The unit of the anchor offsets
              * @default points
              * @enum {string}
              */
-            anchorUnits: "points" | "inches" | "millimeters" | "centimeters";
+            anchorUnits?: "points" | "inches" | "millimeters" | "centimeters";
             /**
              * Anchorignoreifnotpresent
              * @description When the anchor is not found: false refuses the request, true drops the field
              * @default false
              */
-            anchorIgnoreIfNotPresent: boolean;
+            anchorIgnoreIfNotPresent?: boolean;
             /**
              * Anchorcasesensitive
              * @description Match the anchor's case
              * @default false
              */
-            anchorCaseSensitive: boolean;
+            anchorCaseSensitive?: boolean;
             /**
              * Anchormatchwholeword
              * @description Match the anchor only as whole words
              * @default false
              */
-            anchorMatchWholeWord: boolean;
+            anchorMatchWholeWord?: boolean;
             /**
              * Anchorhorizontalalignment
              * @description Which edge of the found text the field lines up with
              * @default left
              * @enum {string}
              */
-            anchorHorizontalAlignment: "left" | "right";
+            anchorHorizontalAlignment?: "left" | "right";
             /**
              * Fieldkey
              * @description Your key for this field's value in form data; never shown to the recipient
@@ -3992,7 +3992,7 @@ export interface components {
              * @description Whether the recipient must fill it
              * @default true
              */
-            required: boolean;
+            required?: boolean;
             /**
              * @description The field's type (enum property replaced by openapi-typescript)
              * @enum {string}
@@ -4003,7 +4003,7 @@ export interface components {
              * @description Take more than one line
              * @default false
              */
-            multiLine: boolean;
+            multiLine?: boolean;
         };
         /**
          * TimestampDownloadOutput
@@ -4130,7 +4130,7 @@ export interface components {
              * @default sealing
              * @constant
              */
-            status: "sealing";
+            status?: "sealing";
         };
         /**
          * TimestampsOutput
@@ -4190,19 +4190,19 @@ export interface components {
              * @description Recipients with the same order are invited together; the next order starts when every signer and approver of the one before has finished
              * @default 1
              */
-            routingOrder: number;
+            routingOrder?: number;
             /**
              * Attachcompletedcopy
              * @description The completion email attaches the signed file, when under 10 MB
              * @default false
              */
-            attachCompletedCopy: boolean;
+            attachCompletedCopy?: boolean;
             /**
              * Requireaccount
              * @description They must be signed in to a Twala account with this email
              * @default false
              */
-            requireAccount: boolean;
+            requireAccount?: boolean;
             /**
              * Accesscode
              * @description 6 to 128 printable ASCII characters they must enter to open the document. Twala never sends it to them
@@ -4231,13 +4231,13 @@ export interface components {
              * @description The PDF in standard base64; left out in a multipart request
              * @default null
              */
-            documentBase64: string | null;
+            documentBase64?: string | null;
             /**
              * Order
              * @description The order recipients see the documents in
              * @default null
              */
-            order: number | null;
+            order?: number | null;
         };
         /**
          * RecipientsInput
@@ -4271,13 +4271,13 @@ export interface components {
              * @default null
              * @example Employee
              */
-            roleName: string | null;
+            roleName?: string | null;
             /**
              * Roleid
              * @description The role's id, from GET /templates/{templateId}
              * @default null
              */
-            roleId: string | null;
+            roleId?: string | null;
             /**
              * Recipientid
              * @description Your id for the recipient
@@ -4300,19 +4300,19 @@ export interface components {
              * @description Makes the recipient embedded; not with accessCode or identity verification
              * @default null
              */
-            clientUserId: string | null;
+            clientUserId?: string | null;
             /**
              * Accesscode
              * @description An access code they must enter
              * @default null
              */
-            accessCode: string | null;
+            accessCode?: string | null;
             /**
              * Requireidentityverification
              * @description Overrides the role's own setting; refused for an embedded recipient
              * @default null
              */
-            requireIdentityVerification: boolean | null;
+            requireIdentityVerification?: boolean | null;
         };
         /**
          * EnvelopeDefinitionInput
@@ -4325,44 +4325,44 @@ export interface components {
              * @default null
              * @example Offer letter
              */
-            name: string | null;
+            name?: string | null;
             /**
              * Message
              * @description Shown to every recipient in their invitation and on the signing page
              * @default null
              */
-            message: string | null;
+            message?: string | null;
             /**
              * Expiresat
              * @description When it expires; in the future
              * @default null
              */
-            expiresAt: string | null;
+            expiresAt?: string | null;
             /**
              * Reminderfrequencydays
              * @description Remind waiting recipients every 2, 3, 5 or 7 days
              * @default null
              */
-            reminderFrequencyDays: number | null;
+            reminderFrequencyDays?: number | null;
             /**
              * Status
              * @description sent (the default) sends it now; draft saves it for later
              * @default sent
              * @enum {string}
              */
-            status: "draft" | "sent";
+            status?: "draft" | "sent";
             /**
              * Includecertificate
              * @description Append the Signing Certificate page to each sealed document
              * @default true
              */
-            includeCertificate: boolean;
+            includeCertificate?: boolean;
             /**
              * Withholdcompletedcopies
              * @description Send recipients no copy of the signed documents, and hide the envelope from them once it completes
              * @default false
              */
-            withholdCompletedCopies: boolean;
+            withholdCompletedCopies?: boolean;
             /**
              * Metadata
              * @description Your own string keys and values; returned on every read and webhook, never shown to a recipient
@@ -4382,25 +4382,25 @@ export interface components {
              * @description Who receives it; required without templateId to send
              * @default null
              */
-            recipients: components["schemas"]["RecipientsInput"] | null;
+            recipients?: components["schemas"]["RecipientsInput"] | null;
             /**
              * Templateid
              * @description Send from this template
              * @default null
              */
-            templateId: string | null;
+            templateId?: string | null;
             /**
              * Templateroles
              * @description Who fills each of the template's roles
              * @default null
              */
-            templateRoles: components["schemas"]["TemplateRoleInput"][] | null;
+            templateRoles?: components["schemas"]["TemplateRoleInput"][] | null;
             /**
              * Acknowledgesigneddocuments
              * @description A PDF that already carries a digital signature is refused unless this is true; when it is, the PDF is flattened and sealed again, which replaces its existing signatures
              * @default false
              */
-            acknowledgeSignedDocuments: boolean;
+            acknowledgeSignedDocuments?: boolean;
         };
         /**
          * AddDocumentsInput
@@ -4417,7 +4417,7 @@ export interface components {
              * @description Accept re-sealing a PDF that is already signed
              * @default false
              */
-            acknowledgeSignedDocuments: boolean;
+            acknowledgeSignedDocuments?: boolean;
         };
         /**
          * TimestampDocumentInput
@@ -4435,7 +4435,7 @@ export interface components {
              * @description The PDF, base64-encoded. Left out in a multipart request, which sends it as a part named `document:{n}`, n counting from 1
              * @default null
              */
-            documentBase64: string | null;
+            documentBase64?: string | null;
             /**
              * Metadata
              * @description Your own key and value pairs for this document, returned on every read: up to 20 keys of 1 to 40 characters, values up to 500
@@ -4444,7 +4444,7 @@ export interface components {
              *       "receiptNo": "000123"
              *     }
              */
-            metadata: {
+            metadata?: {
                 [key: string]: string;
             } | null;
         };
@@ -4463,7 +4463,7 @@ export interface components {
              * @description A PDF that already carries a digital signature is refused unless this is true; when it is, its existing signatures are replaced by the seal
              * @default false
              */
-            acknowledgeSignedDocuments: boolean;
+            acknowledgeSignedDocuments?: boolean;
         };
     };
     responses: never;
