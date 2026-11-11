@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api, type OfferDetail as Detail } from '../api';
 import { dateTime, label, STATUS_TONE } from '../format';
+import { AddRecipient, AttachDocument, FieldEditor } from './DraftTools';
 import { ErrorNotice } from './ErrorNotice';
 
 type Value = NonNullable<NonNullable<Detail['formData']['recipients']>[number]['values']>[number];
@@ -43,6 +44,13 @@ export function OfferDetail({ id, onClose, onChanged }: { id: string; onClose: (
 
   const { envelope, recipients, documents, history, formData } = detail;
   const signers = recipients.signers ?? [];
+  const everyone = [
+    ...signers.map((r) => ({ ...r, role: 'Signs' })),
+    ...(recipients.approvers ?? []).map((r) => ({ ...r, role: 'Approves' })),
+    ...(recipients.viewers ?? []).map((r) => ({ ...r, role: 'Gets a copy' })),
+  ].sort((a, b) => a.routingOrder - b.routingOrder);
+  const isDraft = envelope.status === 'draft';
+  const edit = (action: () => Promise<unknown>) => run(action, load);
   const candidate = signers.find((r) => r.recipientId === 'candidate');
   const candidateTurn = ['pending', 'in_progress'].includes(envelope.status) && ['notified', 'opened'].includes(candidate?.status ?? '');
   const openView = async (view: 'signing' | 'sending') => {
@@ -75,7 +83,7 @@ export function OfferDetail({ id, onClose, onChanged }: { id: string; onClose: (
           <button className="btn btn-primary" disabled={busy} onClick={() => openView('signing')}>Sign as candidate</button>
         </div>
       )}
-      {envelope.status === 'draft' && (
+      {isDraft && (
         <div className="actions">
           <button className="btn" disabled={busy} onClick={() => run(() => api(`/api/offers/${id}`, { method: 'DELETE' }), onClose)}>
             Delete draft
@@ -90,13 +98,21 @@ export function OfferDetail({ id, onClose, onChanged }: { id: string; onClose: (
       <div>
         <h4>Signing order</h4>
         <ol className="recipients">
-          {signers.map((r) => (
+          {everyone.map((r) => (
             <li key={r.recipientIdGuid}>
-              <span>{r.name} <span className="muted">· {r.deliveryMethod === 'embedded' ? 'signs in this app' : r.email}</span></span>
-              <span className={`pill ${STATUS_TONE[r.status] ?? ''}`}>{label(r.status)}</span>
+              <span>
+                {r.name} <span className="muted">· {r.role} {r.deliveryMethod === 'embedded' ? 'in this app' : `by email (${r.email})`}</span>
+              </span>
+              <span className="head-actions">
+                {isDraft && r.recipientId && !['candidate', 'manager'].includes(r.recipientId) && (
+                  <button className="link small" disabled={busy} onClick={() => edit(() => api(`/api/offers/${id}/recipients/${r.recipientId}`, { method: 'DELETE' }))}>Remove</button>
+                )}
+                <span className={`pill ${STATUS_TONE[r.status] ?? ''}`}>{label(r.status)}</span>
+              </span>
             </li>
           ))}
         </ol>
+        {isDraft && <AddRecipient id={id} run={edit} />}
       </div>
 
       <div>
@@ -104,10 +120,23 @@ export function OfferDetail({ id, onClose, onChanged }: { id: string; onClose: (
         {documents.map((d) => (
           <div key={d.documentIdGuid} className="line">
             <a className="link" href={`/api/offers/${id}/documents/${d.documentId}`} target="_blank" rel="noreferrer">{d.name}</a>
-            <span className="muted small">{d.sealed ? 'Signed copy' : 'Original'} · {Math.ceil((d.sizeBytes ?? 0) / 1024)} KB</span>
+            <span className="head-actions">
+              <span className="muted small">{d.sealed ? 'Signed copy' : 'Original'} · {Math.ceil((d.sizeBytes ?? 0) / 1024)} KB</span>
+              {isDraft && (
+                <button className="link small" disabled={busy} onClick={() => edit(() => api(`/api/offers/${id}/documents/${d.documentId}`, { method: 'DELETE' }))}>Remove</button>
+              )}
+            </span>
           </div>
         ))}
+        {isDraft && <AttachDocument id={id} run={edit} />}
       </div>
+
+      {isDraft && (
+        <div>
+          <h4>Fields</h4>
+          {signers.map((r) => r.recipientId && <FieldEditor key={r.recipientIdGuid} id={id} recipientId={r.recipientId} name={r.name} />)}
+        </div>
+      )}
 
       <div>
         <h4>Form data</h4>

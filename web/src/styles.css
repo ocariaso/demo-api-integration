@@ -188,7 +188,7 @@ h2 { font-size: 18px; margin: 0 0 2px; }
 }
 .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .card-head p { margin: 0; }
-.notice { margin: 0; padding: 10px 14px; border-radius: 8px; }
+.notice { margin: 0; padding: 10px 14px; border-radius: 8px; background: var(--bg); }
 .notice-bad { background: var(--bad-bg); color: var(--bad); }
 .facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px 24px; margin: 0; }
 .facts dt { font-size: 12px; color: var(--muted); }
@@ -253,3 +253,17 @@ h2 { font-size: 18px; margin: 0 0 2px; }
 .notice-warn { background: var(--warn-bg); color: var(--warn); }
 .banner { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
 .event-body pre { padding: 10px; margin: 0 0 8px; background: var(--bg); border-radius: 8px; max-height: 40vh; overflow: auto; }
+.inline-form { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+.inline-form input, .inline-form select, .field select {
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  padding: 6px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.inline-form input[type='number'] { width: 70px; }
+.inline-form input[type='checkbox'] { padding: 0; }
+.inline-form .btn { padding: 6px 12px; }
+.file { display: inline-block; margin-top: 6px; cursor: pointer; }
