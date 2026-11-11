@@ -2,7 +2,8 @@
 
 A demo HR hiring desk built on the [Twala API](https://platform-stage.twala.ai/developer-guide).
 It covers every endpoint so we can test two things: whether the API works as
-documented, and how easy it is to integrate. Findings go in
+documented, and how easy it is to integrate. The results are in
+[docs/dx-report.md](docs/dx-report.md), with phase-by-phase details in
 [docs/dx-findings.md](docs/dx-findings.md).
 
 ## How it fits together
