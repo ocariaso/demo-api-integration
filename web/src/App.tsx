@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import { api, type Envelope, type Status } from './api';
+import { api, type Status } from './api';
 import { AccountPanel } from './components/AccountPanel';
 import { ApiLogDrawer } from './components/ApiLogDrawer';
-import { OfferCard } from './components/OfferCard';
+import { OfferDetail } from './components/OfferDetail';
 import { OfferForm } from './components/OfferForm';
+import { Pipeline } from './components/Pipeline';
 import { StatusBar } from './components/StatusBar';
 
 export function App() {
   const [status, setStatus] = useState<Status | null>(null);
   const [statusError, setStatusError] = useState<string | null>(null);
-  const [offers, setOffers] = useState<Envelope[]>([]);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [version, setVersion] = useState(0);
 
   const refresh = () => {
     setStatusError(null);
@@ -17,8 +19,8 @@ export function App() {
   };
   useEffect(refresh, []);
 
-  const update = (id: string, next: Envelope | null) => {
-    setOffers((list) => (next ? list.map((o) => (o.envelopeId === id ? next : o)) : list.filter((o) => o.envelopeId !== id)));
+  const changed = () => {
+    setVersion((v) => v + 1);
     refresh();
   };
 
@@ -35,10 +37,13 @@ export function App() {
         {status?.account && (
           <>
             <AccountPanel account={status.account} />
-            <OfferForm account={status.account} onCreated={(o) => (setOffers((list) => [o, ...list]), refresh())} />
+            <OfferForm account={status.account} onCreated={(o) => (setSelected(o.envelopeId), changed())} />
           </>
         )}
-        {offers.map((o) => <OfferCard key={o.envelopeId} envelope={o} onChange={(next) => update(o.envelopeId, next)} />)}
+        <div className="board">
+          <Pipeline version={version} selected={selected} onSelect={setSelected} />
+          {selected && <OfferDetail key={`${selected}-${version}`} id={selected} onClose={() => setSelected(null)} onChanged={changed} />}
+        </div>
       </main>
       <ApiLogDrawer />
     </div>

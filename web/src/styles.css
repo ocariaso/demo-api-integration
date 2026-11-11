@@ -225,3 +225,27 @@ h2 { font-size: 18px; margin: 0 0 2px; }
 .btn-primary:hover:not(:disabled) { background: var(--accent); }
 .recipients { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
 .recipients li { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.board { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; align-items: start; }
+.board .card { margin-bottom: 0; }
+.head-actions { display: flex; align-items: center; gap: 12px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 12px; font-size: 12px; background: none; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.chip:hover { background: var(--hover); }
+.chip-on { background: var(--selected); border-color: transparent; color: var(--accent); font-weight: 600; }
+.rows { display: grid; }
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--border);
+  text-align: left;
+  cursor: pointer;
+}
+.row:hover { background: var(--hover); }
+.row-on { background: var(--selected); }
+.line { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; flex-wrap: wrap; }
+.line-group { display: grid; gap: 2px; margin-bottom: 8px; }
