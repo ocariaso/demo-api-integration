@@ -157,3 +157,26 @@ as sent envelopes. Highlights:
 - The audit trail names who did what, in order, with times.
 - A document download answers a one-hour link plus `expiresAt`, so the
   server never has to proxy the file.
+
+## Phase 4: embedded signing and sending
+
+### Good: both views are simple to integrate
+
+`POST /envelopes/{id}/views/recipient` and `/views/sender` each answer a
+`url` and `expiresAt`, and a test key may return to `http://localhost`, so
+embedded signing works locally with no return address registered. The
+refusals are specific:
+
+- Sender view on a sent envelope: `409 envelope_not_draft`, "Only a draft has
+  a sender view."
+- Recipient view on a draft: `409 envelope_not_active`, "Only an envelope
+  that is out for signing has a recipient view."
+
+### Friction: timestamps have microseconds, not milliseconds
+
+The docs promise RFC 3339 times "in UTC with milliseconds"
+(`2026-10-30T01:23:45.678Z`), but `expiresAt` came back as
+`2026-11-11T07:48:59.037663Z`. JavaScript's `Date` accepts it, but strict
+parsers (and string comparisons against millisecond values) don't.
+
+Suggested fix: serialize every time with milliseconds, as documented.
