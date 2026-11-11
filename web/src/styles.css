@@ -249,3 +249,6 @@ h2 { font-size: 18px; margin: 0 0 2px; }
 .row-on { background: var(--selected); }
 .line { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; flex-wrap: wrap; }
 .line-group { display: grid; gap: 2px; margin-bottom: 8px; }
+.notice-ok { background: var(--ok-bg); color: var(--ok); }
+.notice-warn { background: var(--warn-bg); color: var(--warn); }
+.banner { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 24px; }

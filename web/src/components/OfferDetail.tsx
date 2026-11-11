@@ -43,6 +43,18 @@ export function OfferDetail({ id, onClose, onChanged }: { id: string; onClose: (
 
   const { envelope, recipients, documents, history, formData } = detail;
   const signers = recipients.signers ?? [];
+  const candidate = signers.find((r) => r.recipientId === 'candidate');
+  const candidateTurn = ['pending', 'in_progress'].includes(envelope.status) && ['notified', 'opened'].includes(candidate?.status ?? '');
+  const openView = async (view: 'signing' | 'sending') => {
+    setBusy(true);
+    setError(null);
+    try {
+      window.location.assign((await api<{ url: string }>(`/api/offers/${id}/views/${view}`, { method: 'POST' })).url);
+    } catch (err) {
+      setError(err);
+      setBusy(false);
+    }
+  };
 
   return (
     <section className="card">
@@ -58,11 +70,17 @@ export function OfferDetail({ id, onClose, onChanged }: { id: string; onClose: (
       </div>
 
       <ErrorNotice error={error} />
+      {candidateTurn && (
+        <div className="actions">
+          <button className="btn btn-primary" disabled={busy} onClick={() => openView('signing')}>Sign as candidate</button>
+        </div>
+      )}
       {envelope.status === 'draft' && (
         <div className="actions">
           <button className="btn" disabled={busy} onClick={() => run(() => api(`/api/offers/${id}`, { method: 'DELETE' }), onClose)}>
             Delete draft
           </button>
+          <button className="btn" disabled={busy} onClick={() => openView('sending')}>Review in Twala</button>
           <button className="btn btn-primary" disabled={busy} onClick={() => run(() => api(`/api/offers/${id}/send`, { method: 'POST' }), load)}>
             Send offer
           </button>

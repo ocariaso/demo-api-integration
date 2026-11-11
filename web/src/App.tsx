@@ -6,11 +6,15 @@ import { OfferDetail } from './components/OfferDetail';
 import { OfferForm } from './components/OfferForm';
 import { Pipeline } from './components/Pipeline';
 import { StatusBar } from './components/StatusBar';
+import { takeReturnEvent } from './returnEvent';
+
+const returned = takeReturnEvent();
 
 export function App() {
   const [status, setStatus] = useState<Status | null>(null);
   const [statusError, setStatusError] = useState<string | null>(null);
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(returned?.envelopeId ?? null);
+  const [banner, setBanner] = useState(returned);
   const [version, setVersion] = useState(0);
 
   const refresh = () => {
@@ -34,6 +38,12 @@ export function App() {
         <StatusBar status={status} error={statusError} onRefresh={refresh} />
       </header>
       <main className="content">
+        {banner && (
+          <div className={`notice notice-${banner.tone} banner`}>
+            <span>{banner.message} The status below is read from Twala.</span>
+            <button className="link" onClick={() => setBanner(null)}>Dismiss</button>
+          </div>
+        )}
         {status?.account && (
           <>
             <AccountPanel account={status.account} />
