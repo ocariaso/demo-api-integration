@@ -277,3 +277,44 @@ loses all field placements without warning.
 
 Suggested fix: a `PUT` to replace a document's file while keeping its fields,
 or a warning in the response.
+
+## Phase 7: fixes and nudges
+
+### Bug: correcting a recipient on a voided envelope returns the generic code `conflict`
+
+`PATCH /envelopes/{id}/recipients/{recipientId}` on a voided envelope answers
+`409` with `code: "conflict"` and "Recipients can only be updated on pending or
+in-progress envelopes". Every other refusal in this phase has a specific code
+(`invalid_status_transition`, `no_recipients_to_remind`,
+`envelope_not_retryable`, `test_recipient_not_allowed`), and the message is in
+a different style. The platform source shows it's `EnvelopeService`'s own
+`ConflictException` (`server/app/services/envelope.py`) falling through to the
+default code, so integrators can't branch on it reliably.
+
+Suggested fix: map it to a specific code, such as `envelope_not_active` (which
+the recipient view already uses for the same situation).
+
+### Good: lifecycle changes behave exactly as documented
+
+All of these matched the docs on stage:
+
+- `metadata` merges on any status, even voided, and a key set to `null` is
+  removed.
+- `expiresAt` in the past is refused with a field-level message ("expiresAt
+  must be in the future").
+- A reminder while only an embedded candidate is waiting answers `409
+  no_recipients_to_remind`, so embedded recipients really are never emailed.
+- A recipient correction to an outside email in test mode is refused with
+  `test_recipient_not_allowed`, the same rule as at send time.
+- Retrying a seal that hasn't failed answers `409 envelope_not_retryable`.
+- Voiding twice or reminding a voided envelope answers `409
+  invalid_status_transition`, naming the status and the action.
+
+### Not testable: a real sealing retry
+
+`POST /envelopes/{id}/sealing-attempts` only works after a seal actually
+fails, and there's no way to make one fail on demand. The app shows **Retry
+sealing** on a `sealing_failed` offer, but only the refusal was exercised.
+
+Suggested fix: a test-mode way to simulate `sealing_failed`, so integrators
+can test their retry path.
