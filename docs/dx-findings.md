@@ -121,3 +121,39 @@ and `requireIdentityVerification` even though the spec only requires
 The spec is correct, but most TypeScript integrators will hit this.
 
 Suggested fix: mention the flag in the guide's "generate a client" tip.
+
+## Phase 3: pipeline
+
+### Bug: the `metadata[key]` filter is missing from the OpenAPI document
+
+The docs say `GET /envelopes?metadata[source]=hiring-desk` finds an
+integration's own envelopes, and it works on stage. But the OpenAPI document's
+`listEnvelopes` parameters stop at `status`, `createdFrom`, `createdTo`,
+`updatedSince`, `order`, `page` and `limit`. A generated client has no way to
+pass it without a type cast, and an integrator reading only the reference
+never learns it exists.
+
+Suggested fix: declare it as a `deepObject` query parameter
+(`style: deepObject, explode: true`) named `metadata`.
+
+### Friction: always-present response fields are marked optional
+
+The API always returns `signers`, `approvers` and `viewers` (as empty arrays
+when unused), a form-data response's `recipients` and each recipient's
+`values`, but the OpenAPI document leaves them out of `required`. Generated
+types then force null checks on fields that are never missing.
+
+Suggested fix: generate response schemas in serialization mode so every field
+the API always sends is listed in `required`.
+
+### Good: the read endpoints are complete and consistent
+
+The detail page loads with five parallel calls (envelope, recipients,
+documents, audit events, form data), all of which worked on drafts as well
+as sent envelopes. Highlights:
+
+- Form data works before anyone signs, listing each field with `filled:
+  false`, so an integration can show progress.
+- The audit trail names who did what, in order, with times.
+- A document download answers a one-hour link plus `expiresAt`, so the
+  server never has to proxy the file.
