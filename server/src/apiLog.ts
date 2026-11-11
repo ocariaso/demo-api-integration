@@ -30,17 +30,19 @@ export function clip(text: string): unknown {
   }
 }
 
+export const publish = (event: LogEvent) => events.emit('log', event);
+
 export function record(entry: Omit<ApiLogEntry, 'id'>) {
   const full = { id: nextId++, ...entry };
   if (entries.push(full) > config.logLimit) entries.shift();
-  events.emit('log', { type: 'entry', entry: full } satisfies LogEvent);
+  publish({ type: 'entry', entry: full });
 }
 
 export const recent = () => entries;
 
 export function clear() {
   entries.length = 0;
-  events.emit('log', { type: 'clear' } satisfies LogEvent);
+  publish({ type: 'clear' });
 }
 
 export function subscribe(listener: (event: LogEvent) => void) {

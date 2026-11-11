@@ -23,4 +23,5 @@ export const config = {
   keyMode,
   maskedKey: apiKey && `${apiKey.slice(0, 9)}…${apiKey.slice(-4)}`,
   logLimit: Number(process.env.API_LOG_LIMIT ?? 200),
+  webhookSecret: process.env.TWALA_WEBHOOK_SECRET?.trim() || undefined,
 };
