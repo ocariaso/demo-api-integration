@@ -267,3 +267,5 @@ h2 { font-size: 18px; margin: 0 0 2px; }
 .inline-form input[type='checkbox'] { padding: 0; }
 .inline-form .btn { padding: 6px 12px; }
 .file { display: inline-block; margin-top: 6px; cursor: pointer; }
+.recipients li { align-items: center; }
+.recipients li > .inline-form { flex-basis: 100%; }

@@ -55,7 +55,7 @@ export function App() {
         )}
         <div className="board">
           <Pipeline version={version} selected={selected} onSelect={setSelected} />
-          {selected && <OfferDetail key={`${selected}-${version}`} id={selected} onClose={() => setSelected(null)} onChanged={changed} />}
+          {selected && <OfferDetail key={`${selected}-${version}`} id={selected} onClose={() => setSelected(null)} onChanged={changed} onSelect={setSelected} />}
         </div>
         <ActivityFeed version={version} webhooks={!!status?.webhooks} />
       </main>
