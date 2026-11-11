@@ -221,3 +221,59 @@ there's no local equivalent for webhooks.
 Suggested fix: a "Send test event" target that streams events to a CLI (like
 `stripe listen`), or let test-mode endpoints keep their secret when only the
 address changes.
+
+## Phase 6: drafts and templates
+
+### Bug: fields read with `GET` can't be written back with `PUT`
+
+To add one field to a draft signer, an integrator reads their fields, appends
+one, and `PUT`s the list. Sending the fields back as `GET` returned them fails
+with `422 validation_error`, and it takes three rounds of trial and error to
+find out why:
+
+1. `fieldId` and `documentIdGuid` are refused as extra inputs.
+2. Every property `GET` returned as `null` (`placeholder`, `dateFormat`,
+   `options`, …) is refused, because the field's type doesn't take it.
+3. `GET` returns `autoFill: false` on **signature** and **mobile** fields,
+   whose types refuse `autoFill` altogether.
+
+What works: drop the ids and every `null`, and keep `autoFill` only on `date`,
+`name` and `email` fields. None of this is in the docs.
+
+Suggested fix: make `PUT` accept what `GET` returns (ignore the ids and
+`null`s), and stop returning `autoFill` on types that don't have it.
+
+### Bug: `include=fields` on `GET /templates/{id}` is missing from the OpenAPI document
+
+The docs say `?include=fields` adds each role's fields, but the operation
+declares no query parameters at all, so a generated client needs a cast to
+send it. (`GET /envelopes/{id}` declares its `include` correctly.)
+
+### To confirm: template list and role shapes differ between docs and spec
+
+There were no templates in the test account, so these couldn't be checked
+against real responses:
+
+- The docs say each `GET /templates` item has `shared`, `documents` and
+  `roles`; the OpenAPI `TemplateSummaryOutput` has only `templateId`, `name`,
+  `createdAt` and `updatedAt`.
+- The docs call a role's kind `roleType`; the OpenAPI `TemplateRoleOutput`
+  calls it `type`.
+
+### Good: draft editing is complete and its errors are precise
+
+Attaching and removing documents, adding and removing recipients, and
+replacing fields all worked on stage. Errors name the exact problem:
+`duplicate_recipient_email` for a second recipient with the same email,
+`field_out_of_bounds` naming `fields[3]`, and `template_not_found` for an
+unknown template.
+
+### Friction: removing a draft's last document silently drops its fields
+
+`DELETE /envelopes/{id}/documents/{documentId}` on the only document answers
+`204`, and every signer's fields go with it, as documented. It's legal for a
+draft, but an integrator who removes and re-adds a document to "replace" it
+loses all field placements without warning.
+
+Suggested fix: a `PUT` to replace a document's file while keeping its fields,
+or a warning in the response.
