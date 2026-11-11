@@ -1,3 +1,7 @@
+import type { components } from '../server/src/twala/schema.js';
+
+export type Account = components['schemas']['AccountOutput'];
+
 export interface ApiLogEntry {
   id: number;
   startedAt: string;
@@ -23,4 +27,5 @@ export interface Status {
   key: string | undefined;
   reachable: boolean;
   keyError: string | null;
+  account: Account | null;
 }

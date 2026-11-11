@@ -8,11 +8,12 @@ const app = express();
 app.use(express.json({ limit: '30mb' }));
 
 app.get('/api/status', async (_req, res) => {
-  const status: Status = { apiBase: config.apiBase, keyMode: config.keyMode, key: config.maskedKey, reachable: false, keyError: null };
+  const status: Status = { apiBase: config.apiBase, keyMode: config.keyMode, key: config.maskedKey, reachable: false, keyError: null, account: null };
   try {
-    const { error, response } = await twala.GET('/account');
+    const { data, error, response } = await twala.GET('/account');
     status.reachable = true;
-    if (!response.ok) status.keyError = error?.code ?? `http_${response.status}`;
+    status.account = data ?? null;
+    if (error) status.keyError = error.code ?? `http_${response.status}`;
   } catch {}
   res.json(status);
 });
