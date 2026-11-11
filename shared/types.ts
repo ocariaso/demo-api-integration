@@ -23,7 +23,20 @@ export interface OfferInput {
   managerName: string;
   managerEmail: string;
   send: boolean;
+  templateId?: string;
 }
+
+export interface DraftRecipientInput {
+  group: 'approvers' | 'viewers';
+  name: string;
+  email: string;
+  embedded: boolean;
+}
+
+export type FieldInput = components['schemas']['FieldsReplaceInput']['fields'][number];
+export type Field = components['schemas']['FieldOutput'];
+export type TemplateSummary = components['schemas']['TemplateSummaryOutput'];
+export type Template = components['schemas']['TemplateOutput'];
 
 export interface ApiLogEntry {
   id: number;
