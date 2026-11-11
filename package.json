@@ -1,0 +1,33 @@
+{
+  "name": "hr-hiring-desk",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Demo HR hiring desk built on the Twala API, to test its developer experience",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n server,web -c blue,magenta \"npm:dev:server\" \"npm:dev:web\"",
+    "dev:server": "tsx watch --env-file-if-exists=.env server/src/index.ts",
+    "dev:web": "vite",
+    "build": "vite build",
+    "typecheck": "tsc -p server && tsc -p web",
+    "gen:api": "node --env-file-if-exists=.env scripts/gen-api.mjs"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "openapi-fetch": "^0.17.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "concurrently": "^10.0.7",
+    "openapi-typescript": "^7.13.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.7"
+  }
+}
