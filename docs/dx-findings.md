@@ -78,3 +78,46 @@ A field that can't vary invites integrators to write dead branches for
 `false`.
 
 Suggested fix: drop it in a future version, or document it as reserved.
+
+## Phase 2: send offer
+
+### Good: create, send and delete work as documented
+
+`POST /envelopes` with `"status": "draft"` or `"sent"`, `PATCH` with
+`{"status": "sent"}` and `DELETE` on a draft all behaved exactly as the docs
+say. Anchor text placed every field on the first try. Errors are specific and
+say how to fix them:
+
+- Deleting a sent envelope: `409 envelope_not_draft`, "Only a draft can be
+  changed this way. Void an envelope that was sent."
+- A test send to an outside email: `400 test_recipient_not_allowed`, "A test
+  envelope goes only to you. Make someone@example.com an embedded recipient,
+  or send with a live key."
+
+### Friction: statuses are plain strings in the OpenAPI document
+
+`EnvelopeOutput.status` and `RecipientOutput.status` are typed `string`, with
+the allowed values only in the description. Generated clients can't check a
+`switch` on status for typos or missing cases.
+
+Suggested fix: declare them as enums (`draft`, `pending`, `in_progress`, …).
+
+### Gap: default field sizes change on portrait pages that aren't A4
+
+The docs say a field without a size takes the editor's default (signature
+20 × 8 percent) and that only landscape pages scale the height. On a portrait
+US Letter page, a signature came back 20 × 8.74 and a date 15 × 3.28, so the
+height scaling applies to any page shaped differently from A4.
+
+Suggested fix: document the rule as "scaled by A4's aspect over the page's",
+or limit it to landscape as written.
+
+### Friction: TypeScript generators mark defaulted fields as required
+
+`openapi-typescript` treats every property with a `default` as required, so
+`SignerInput` demanded `routingOrder`, `attachCompletedCopy`, `requireAccount`
+and `requireIdentityVerification` even though the spec only requires
+`recipientId`, `name` and `email`. The fix is `--default-non-nullable false`.
+The spec is correct, but most TypeScript integrators will hit this.
+
+Suggested fix: mention the flag in the guide's "generate a client" tip.
