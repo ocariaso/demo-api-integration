@@ -1,12 +1,40 @@
 import { randomUUID } from 'node:crypto';
 import { Router } from 'express';
-import type { OfferInput } from '../../shared/types.js';
+import type { OfferDetail, OfferInput } from '../../shared/types.js';
 import { ANCHORS, offerLetterPdf } from './offerLetter.js';
 import { twala, unwrap } from './twala/client.js';
 
 export const offers = Router();
 
 const envelopePath = (id: string) => ({ params: { path: { envelope_id: id } } });
+
+offers.get('/', async (req, res) => {
+  const { status, page } = req.query as Record<string, string | undefined>;
+  // The metadata filter is documented but missing from the OpenAPI document, so it isn't in the generated type.
+  const query = { 'metadata[source]': 'hiring-desk', status: status || undefined, page: Number(page) || 1, limit: 20 } as { page: number };
+  res.json(await unwrap(twala.GET('/envelopes', { params: { query } })));
+});
+
+offers.get('/:id', async (req, res) => {
+  const path = envelopePath(req.params.id);
+  const [envelope, recipients, documents, history, formData] = await Promise.all([
+    unwrap(twala.GET('/envelopes/{envelope_id}', path)),
+    unwrap(twala.GET('/envelopes/{envelope_id}/recipients', path)),
+    unwrap(twala.GET('/envelopes/{envelope_id}/documents', path)),
+    unwrap(twala.GET('/envelopes/{envelope_id}/audit-events', path)),
+    unwrap(twala.GET('/envelopes/{envelope_id}/form-data', path)),
+  ]);
+  res.json({ envelope, recipients, documents, history, formData } satisfies OfferDetail);
+});
+
+offers.get('/:id/documents/:documentId', async (req, res) => {
+  const { url } = await unwrap(
+    twala.GET('/envelopes/{envelope_id}/documents/{document_id}', {
+      params: { path: { envelope_id: req.params.id, document_id: req.params.documentId } },
+    }),
+  );
+  res.redirect(url);
+});
 
 offers.post('/', async (req, res) => {
   const offer = req.body as OfferInput;

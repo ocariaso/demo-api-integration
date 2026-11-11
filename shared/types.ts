@@ -2,6 +2,15 @@ import type { components } from '../server/src/twala/schema.js';
 
 export type Account = components['schemas']['AccountOutput'];
 export type Envelope = components['schemas']['EnvelopeOutput'];
+export type EnvelopePage = components['schemas']['PaginatedResponse_EnvelopeOutput_'];
+
+export interface OfferDetail {
+  envelope: Envelope;
+  recipients: components['schemas']['RecipientsOutput'];
+  documents: components['schemas']['DocumentOutput'][];
+  history: components['schemas']['AuditEventOutput'][];
+  formData: components['schemas']['FormDataOutput'];
+}
 
 export interface OfferInput {
   candidateName: string;
