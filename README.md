@@ -1,4 +1,4 @@
-# Acme hiring desk
+# Hiring desk
 
 A demo HR hiring desk built on the [Twala API](https://platform-stage.twala.ai/developer-guide).
 It covers every endpoint so we can test two things: whether the API works as
